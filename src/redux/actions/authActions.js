@@ -1,60 +1,74 @@
-
-import { 
-  LoginUserService, 
+import {
+  LoginUserService,
   AuthorizeUserService,
   LogoutUserService,
   RegisterUserService,
-} from '../../services/AuthServices'
-import { auth, } from '../types'
+} from "../../services/AuthService"
+import { auth, } from "../types"
 
 export const login = creds => {
   return dispatch => {
-        
+
     dispatch({ type: auth.AUTH_LOGIN_PENDING, })
 
     LoginUserService(creds).then(res => {
       dispatch({
         type: auth.AUTH_LOGIN_SUCCESS,
-        payload: res,
+        payload: res.data,
       })
-        
+
     }, error => {
-      const message = error.response.data[0] ||
-        error.response.data.email[0] ||
-        error.response.data.password[0]
-      dispatch({ 
-        type : auth.AUTH_LOGIN_ERROR, 
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
+      } else {
+        message = "Something went wrong. Please come back later."
+      }
+      dispatch({
+        type: auth.AUTH_LOGIN_ERROR,
         payload: message,
       })
     })
   }
 }
 
-export const authorize = () => {
+export const authorise = () => {
   return dispatch => {
-        
+
     dispatch({ type: auth.AUTH_AUTHORIZE_PENDING, })
-    const tokenId = "user-token"
-    if (localStorage.getItem(tokenId) === null) {
-      return dispatch({ 
-        type : auth.AUTH_AUTHORIZE_ERROR, 
-        payload: (new Error(
-          "Token not set."
-        )).message,
+    const tokenID = "user-token"
+    if (localStorage.getItem(tokenID) === null) {
+      return dispatch({
+        type: auth.AUTH_AUTHORIZE_ERROR,
+        payload: "Token not set.",
       })
-    }    
+    }
 
     AuthorizeUserService().then(res => {
       dispatch({
         type: auth.AUTH_AUTHORIZE_SUCCESS,
         payload: res,
       })
-        
+
     }, error => {
-        dispatch({ 
-          type : auth.AUTH_AUTHORIZE_ERROR, 
-          payload: error,
-        })
+      if (error.response.status === 401) {
+        localStorage.removeItem(tokenID)
+        window.location = "/"
+      }
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
+      } else {
+        message = "Something went wrong. Please come back later."
+      }
+      dispatch({
+        type: auth.AUTH_AUTHORIZE_ERROR,
+        payload: message,
+      })
     })
   }
 }
@@ -66,15 +80,20 @@ export const logout = () => {
     LogoutUserService().then(res => {
       dispatch({
         type: auth.AUTH_LOGOUT_SUCCESS,
-        payload: res,
+        payload: null,
       })
-        
+
     }, error => {
-      const message = error.response.data[0] ||
-        error.response.data.email[0] ||
-        error.response.data.password[0]
-      dispatch({ 
-        type : auth.AUTH_LOGOUT_ERROR, 
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
+      } else {
+        message = "Something went wrong. Please come back later."
+      }
+      dispatch({
+        type: auth.AUTH_LOGOUT_ERROR,
         payload: message,
       })
     })
@@ -83,7 +102,7 @@ export const logout = () => {
 
 export const register = data => {
   return dispatch => {
-        
+
     dispatch({ type: auth.AUTH_REGISTER_PENDING, })
 
     RegisterUserService(data).then(res => {
@@ -92,14 +111,16 @@ export const register = data => {
         payload: res,
       })
     }, error => {
-      const message = error.response.data[0] ||
-        error.response.data.first_name[0] ||
-        error.response.data.last_name[0] ||
-        error.response.data.email[0] ||
-        error.response.data.password[0] ||
-        error.response.data.password_confirmation[0]
-      dispatch({ 
-        type : auth.AUTH_REGISTER_ERROR, 
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
+      } else {
+        message = "Something went wrong. Please come back later."
+      }
+      dispatch({
+        type: auth.AUTH_REGISTER_ERROR,
         payload: message,
       })
     })

@@ -9,8 +9,7 @@ const inProduction = app.isPackaged;
 
 let mainWindow;
 const preload = path.join(
-    __dirname, 
-    '../',
+    __dirname,
     'preload.js',
 );
 
@@ -19,7 +18,7 @@ function createWindow() {
         width: 900, 
         height: 680, 
         webPreferences: {
-            devTools: inProduction ? false : true,
+            devTools: true,
             preload,
         },
     });

@@ -1,15 +1,17 @@
-import React, { useEffect, useState, } from 'react'
-import { useNavigate, } from 'react-router-dom'
-import { useDispatch, useSelector, } from 'react-redux'
-import { login, } from '../../../redux/actions/authActions'
+import React, { useEffect, useState, } from "react"
+import { useDispatch, useSelector, } from "react-redux"
+import { Helmet, } from "react-helmet"
+import { login, authorise, } from "../../../redux/actions/authActions"
+import ErrorComponent from "../../layouts/ErrorComponent"
 
 import "./LoginComponent.scss"
 
-export default function LoginComponent() {
-  const navigate = useNavigate()
+const defaultEmailState = "jane@example.com"
+const defaultPasswordState = "secret"
 
-  const [email, setEmail] = useState("jane@doe.com")
-  const [password, setPassword] = useState("secret")
+export default function LoginComponent() {
+  const [email, setEmail] = useState(defaultEmailState)
+  const [password, setPassword] = useState(defaultPasswordState)
 
   const dispatch = useDispatch()
   const state = useSelector(state => ({
@@ -17,7 +19,11 @@ export default function LoginComponent() {
   }))
 
   useEffect(() => {
-    if (state.auth.data) {
+    dispatch(authorise())
+  }, [])
+
+  useEffect(() => {
+    if (null !== state.auth.data) {
       window.location.href = "/"
     }
   }, [state.auth])
@@ -38,54 +44,57 @@ export default function LoginComponent() {
   const onPasswordChange = (e) => {
     setPassword(e.target.value)
   }
-
+  
   if (state.auth.loading) {
-    return <p>Loading...</p>
+    return <div className="container login-container text-center">
+      <Helmet>
+        <title>Sign In - {process.env.REACT_APP_NAME}</title>
+      </Helmet>
+      <p>Loading...</p>
+    </div>
   }
 
-  return (
-    <>
-      <div className='container login-container'>
-        <div className="col-md-4 offset-md-4">
-          <h3 className="lead">Login</h3>
-          <form method="post" onSubmit={onFormSubmit}>
-            {state.auth.error ?
-              <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                {state.auth.error}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div> : null}
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input 
-                name="email" 
-                className="form-control"
-                value={email}
-                onChange={onEmailChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password"
-                name="password" 
-                className="form-control"
-                value={password}
-                onChange={onPasswordChange}
-              />
-            </div>
-            <a 
-              href="/user/register" 
-              className="btn btn-primary"
-            >
-              Register
-            </a>
-            <input 
-              type="submit" 
-              className="btn btn-success" 
-            />
-          </form>
+  return <div className="container login-container">
+    <Helmet>
+      <title>Sign In - {process.env.REACT_APP_NAME}</title>
+    </Helmet>
+    <div className="col-md-4 offset-md-4">
+      <h1 className="login-lead fw-bold">Sign In</h1>
+      <form method="post" onSubmit={onFormSubmit}>
+        <ErrorComponent error={state.auth.error} />
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input 
+            name="email" 
+            className="form-control"
+            value={email}
+            onChange={onEmailChange}
+            autoComplete="on"
+          />
         </div>
-      </div>
-    </>       
-  )
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input 
+            type="password"
+            name="password" 
+            className="form-control"
+            value={password}
+            onChange={onPasswordChange}
+          />
+        </div>
+        <div className="login-buttons-container mt-3 text-end">
+          <a 
+            href="/user/register" 
+            className="btn btn-primary"
+          >
+            Register
+          </a>
+          <input 
+            type="submit" 
+            className="btn btn-success login-submit-button ms-4" 
+          />
+        </div>
+      </form>
+    </div>
+  </div>
 }

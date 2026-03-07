@@ -1,4 +1,4 @@
-import { users, } from "../types"
+import { avatar, } from "../types"
 
 const initState = {
   data: null,
@@ -6,23 +6,23 @@ const initState = {
   loading: true,
 }
 
-export default function usersReducer (state = initState, action) {
+export default function avatarReducer (state = initState, action) {
   switch (action.type) {
     
-    case users.GET_USERS_ERROR:
+    case avatar.UPLOAD_AVATAR_ERROR:
       return {
         ...state,
         error: action.payload,
         loading: false,
       }
     
-    case users.GET_USERS_PENDING:
+    case avatar.UPLOAD_AVATAR_PENDING:
       return {
         ...state,
         loading: true,
       }
     
-    case users.GET_USERS_SUCCESS:
+    case avatar.UPLOAD_AVATAR_SUCCESS:
       return {
         ...state,
         data: action.payload,
