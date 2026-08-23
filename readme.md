@@ -1,8 +1,8 @@
 <img src="https://github.com/kkamara/useful/blob/main/drb.png?raw=true" alt="drb.png" />
 
-# desktop-reactjs-boilerplate
+# desktop-react-boilerplate
 
-(01 Jun 2023) ElectronJS, ReactJS 16.
+(01 Jun 2023) ElectronJS, React 16.
 
 ## Installation
 

@@ -1,13 +1,13 @@
 {
-  "name": "desktop-reactjs-boilerplate",
-  "description": "(01 Jun 2023) ElectronJS, ReactJS 16.",
+  "name": "desktop-react-boilerplate",
+  "description": "(01 Jun 2023) ElectronJS, React 16.",
   "version": "0.1.0",
   "author": "https://www.github.com/kkamara",
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
-    "appId": "<com.desktop-reactjs-boilerplate>"
+    "appId": "<com.desktop-react-boilerplate>"
   },
   "scripts": {
     "react-start": "react-scripts start",
