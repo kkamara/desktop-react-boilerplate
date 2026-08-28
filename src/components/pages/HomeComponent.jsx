@@ -1,5 +1,4 @@
 import React from "react"
-import { Helmet, } from "react-helmet"
 
 export default function HomeComponent() {
   const openChildWindow = () => {
@@ -8,9 +7,6 @@ export default function HomeComponent() {
 
   return (
     <div className="container home-container">
-      <Helmet>
-        <title>Home - {import.meta.env.VITE_APP_NAME || "Desktop React Boilerplate"}</title>
-      </Helmet>
       <div className="text-center">
         <button
           className="btn btn-primary home-button"
