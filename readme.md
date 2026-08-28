@@ -2,7 +2,7 @@
 
 # desktop-react-boilerplate
 
-(01 Jun 2023) ElectronJS, React 16.
+(01 Jun 2023) ElectronJS, React 19.
 
 ## Installation
 
