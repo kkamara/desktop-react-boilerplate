@@ -1,4 +1,4 @@
-<img src="https://github.com/kkamara/useful/blob/main/drb.png?raw=true" alt="drb.png" />
+<img src="https://github.com/kkamara/useful/blob/main/desktop-react-boilerplate.png?raw=true" alt="desktop-react-boilerplate.png" />
 
 # desktop-react-boilerplate
 
