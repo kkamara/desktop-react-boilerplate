@@ -36,7 +36,7 @@ function createWindow() {
 
 // Function to create child window of parent one
 function createChildWindow() {
-    childWindow = new BrowserWindow({
+    const childWindow = new BrowserWindow({
         width: 400,
         height: 400,
         modal: true,
