@@ -59,11 +59,14 @@ function createChildWindow() {
 
 ipcMain.on('openChildWindow', (event, arg) => {
     createChildWindow();
+    // mainWindow.webContents.send(
+    //     "fromMain",
+    //     {"message": "Hello from fromMain"},
+    // );
 });
 
 ipcMain.on('closeChildWindow', (event, arg) => {
     childWindow.close();
-    // win.webContents.send("openChildWindow", responseObj);
 });
 
 app.on('ready', createWindow);
