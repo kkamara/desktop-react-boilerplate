@@ -7,7 +7,7 @@ const ipcMain = electron.ipcMain;
 
 const inProduction = app.isPackaged;
 
-let mainWindow;
+let mainWindow, childWindow;
 const preload = path.join(
     __dirname,
     'preload.js',
@@ -36,7 +36,7 @@ function createWindow() {
 
 // Function to create child window of parent one
 function createChildWindow() {
-    const childWindow = new BrowserWindow({
+    childWindow = new BrowserWindow({
         width: 400,
         height: 400,
         modal: true,
